@@ -4,4 +4,6 @@ public interface IInputParser {
     public string InputToString();
 
     public List<float> InputToNums();
+
+    public List<string> InputToStrings();
 }

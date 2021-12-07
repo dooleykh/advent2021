@@ -17,10 +17,19 @@ public class InputParser : IInputParser
         while (true)
         {
             string? line = Reader.ReadLine();
-            if (string.IsNullOrEmpty(line)) break;
+            if (string.IsNullOrEmpty(line)) return nums;
             nums.Add(Convert.ToSingle(line));
         }
+    }
 
-        return nums;
+    public List<string> InputToStrings()
+    {
+        List<string> strings = new List<string>();
+        while (true)
+        {
+            string? line = Reader.ReadLine();
+            if (string.IsNullOrEmpty(line)) return strings;
+            strings.Add(line);
+        }
     }
 }

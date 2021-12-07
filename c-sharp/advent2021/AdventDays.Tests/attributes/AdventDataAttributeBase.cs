@@ -8,19 +8,21 @@ using Xunit.Sdk;
 using Advent2021.Inputs;
 using Advent2021.Utilities;
 
-namespace AdventDays.Tests;
-
+namespace Advent2021.Days.Tests;
 
 public class AdventTestCaseAttribute : DataAttribute
 {
 
-    private InputParser Parser;
-    private object ExpectedResult;
+    private readonly Day? InputDay;
+    private readonly object ExpectedResult;
 
-    public AdventTestCaseAttribute(string fileName, object expectedResult)
+    public AdventTestCaseAttribute(Type type, string fileName, object expectedResult)
     {
-        Stream? resource = AdventInputs.GetSamplePuzzleInput(fileName);
-        Parser = new InputParser(resource);
+        Stream resource = AdventInputs.GetSamplePuzzleInput(fileName);
+        InputDay = Activator.CreateInstance(
+            type,
+            new object[] { new InputParser(resource) }) as Day;
+        if (InputDay is null) throw new ArgumentException();
         ExpectedResult = expectedResult;
     }
 
@@ -28,6 +30,6 @@ public class AdventTestCaseAttribute : DataAttribute
     {
         if (testMethod is null) throw new System.Exception();
 
-        return new List<object[]>() { new object[] { Parser, ExpectedResult }};
+        return new List<object[]>() { new object[] { InputDay!, ExpectedResult }};
     }
 }
