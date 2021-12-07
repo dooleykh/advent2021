@@ -13,6 +13,7 @@ Day day = args[0] switch
     "1" => new Day1(parser),
     "2" => new Day2(parser),
     "3" => new Day3(parser),
+    "4" => new Day4(parser),
     _ => throw new NotImplementedException()
 };
 

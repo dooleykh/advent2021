@@ -32,4 +32,15 @@ public class InputParser : IInputParser
             strings.Add(line);
         }
     }
+
+    public List<string> RawInput()
+    {
+        List<string> strings = new List<string>();
+        while (true)
+        {
+            string? line = Reader.ReadLine();
+            if (line is null) return strings;
+            strings.Add(line);
+        }
+    }
 }

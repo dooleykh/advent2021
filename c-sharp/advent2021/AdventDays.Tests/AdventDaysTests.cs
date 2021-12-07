@@ -11,6 +11,8 @@ public class AdventDaysTests
     [AdventTestCase(typeof(Day2), "day-2.txt", 1727835)]
     [AdventTestCase(typeof(Day3), "sample-day-3.txt", 198)]
     [AdventTestCase(typeof(Day3), "day-3.txt", 2640986)]
+    [AdventTestCase(typeof(Day4), "sample-day-4.txt", 4512)]
+    [AdventTestCase(typeof(Day4), "day-4.txt", 11536)]
     public void Part1Tests(Day day, object expectedResult) => Assert.Equal(expectedResult, day.Part1());
 
     [Theory]
@@ -20,5 +22,7 @@ public class AdventDaysTests
     [AdventTestCase(typeof(Day2), "day-2.txt", 1544000595)]
     [AdventTestCase(typeof(Day3), "sample-day-3.txt", 230)]
     [AdventTestCase(typeof(Day3), "day-3.txt", 6822109)]
+    [AdventTestCase(typeof(Day4), "sample-day-4.txt", 1924)]
+    [AdventTestCase(typeof(Day4), "day-4.txt", 1284)]
     public void Part2Tests(Day day, object expectedResult) => Assert.Equal(expectedResult, day.Part2());
 }
