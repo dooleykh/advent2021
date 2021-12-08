@@ -1,21 +1,16 @@
-﻿using System.Reflection;
-
+﻿using Advent2021.Days;
 using Advent2021.Inputs;
-using Advent2021.Days;
 using Advent2021.Utilities;
 
 if (args.Length != 2) throw new ArgumentException("Arg 1: Day. Arg 2: Part.");
 
-IInputParser parser = new InputParser(AdventInputs.GetPuzzleInput(args[0]));
+Type? t = Type.GetType($"Advent2021.Days.Day{args[0]}, AdventDays");
+if (t is null) throw new ArgumentException("Unknown Day");
 
-Day day = args[0] switch
-{
-    "1" => new Day1(parser),
-    "2" => new Day2(parser),
-    "3" => new Day3(parser),
-    "4" => new Day4(parser),
-    _ => throw new NotImplementedException()
-};
+Day? day = Activator.CreateInstance(
+    t,
+    new object[] { new InputParser(AdventInputs.GetPuzzleInput(args[0])) }) as Day;
+if (day is null) throw new InvalidOperationException($"Could not create instance of Day{args[0]}");
 
 Console.WriteLine(
     args[1] switch {
