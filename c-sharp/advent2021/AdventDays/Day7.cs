@@ -21,10 +21,10 @@ public class Day7 : Day
         int minPosition = Input.Min();
         int maxPosition = Input.Max();
         
-        for (int currPos = minPosition; currPos <= maxPosition; currPos++)
+        for (int testPos = minPosition; testPos <= maxPosition; testPos++)
         {
             minFuel = Math.Min(
-                Input.Select(pos => Math.Abs(pos - currPos)).Sum(),
+                Input.Select(pos => Math.Abs(pos - testPos)).Sum(),
                 minFuel);
         }
 
@@ -37,10 +37,10 @@ public class Day7 : Day
         int minPosition = Input.Min();
         int maxPosition = Input.Max();
         
-        for (int currPos = minPosition; currPos <= maxPosition; currPos++)
+        for (int testPos = minPosition; testPos <= maxPosition; testPos++)
         {
             minFuel = Math.Min(
-                Input.Select(pos => Sum1ToN(Math.Abs(pos - currPos))).Sum(),
+                Input.Select(pos => Sum1ToN(Math.Abs(pos - testPos))).Sum(),
                 minFuel);
         }
 
