@@ -22,12 +22,12 @@ public class Day9 : Day
 
     private List<(int i, int j)> GetValidNeighbors(int i, int j)
     {
-        List<(int i, int j)> neighbors = new List<(int i, int j)>()
+        List<(int i, int j)> neighbors = new List<(int, int)>()
         {
-            (i: i - 1, j: j),
-            (i: i + 1, j: j),
-            (i: i, j: j - 1),
-            (i: i, j: j + 1),
+            (i - 1, j),
+            (i + 1, j),
+            (i, j - 1),
+            (i, j + 1),
         };
 
         return neighbors.Where(loc =>
@@ -37,42 +37,19 @@ public class Day9 : Day
             loc.j < Grid[0].Length
         ).ToList();
     }
-    
-    private bool IsLowPoint(int i, int j)
-    {
-        int height = Grid[i][j];
-        var (up, down, left, right) = (
-            (i: i - 1, j: j),
-            (i: i + 1, j: j),
-            (i: i, j: j - 1),
-            (i: i, j: j + 1)
-        );
-        
-        if (up.i >= 0 && Grid[up.i][up.j] <= height) return false;
-        if (down.i < Grid.Length && Grid[down.i][down.j] <= height) return false;
-        if (left.j >= 0 && Grid[left.i][left.j] <= height) return false;
-        if (right.j < Grid[0].Length && Grid[right.i][right.j] <= height) return false;
-
-        return true;
-    }
 
     public override object Part1()
     {
         int sum = 0;
-
         for (int i = 0; i < Grid.Length; i++)
-        {
             for (int j = 0; j < Grid[0].Length; j++)
             {
-                if (IsLowPoint(i, j)) 
+                if (GetValidNeighbors(i, j).All(loc => Grid[i][j] < Grid[loc.i][loc.j])) 
                     sum += Grid[i][j] + 1;
             }
-        }
 
         return sum;
     }
-
-
 
     public override object Part2()
     {
@@ -88,23 +65,18 @@ public class Day9 : Day
             {
                 if (visited[i][j]) continue;
                 int size = 0;
-                List<(int i, int j)> candidates = new List<(int i, int j)>() { (i, j) };
+                Queue<(int i, int j)> candidates = new Queue<(int i, int j)>();
+                candidates.Enqueue((i, j));
+
                 while (candidates.Count > 0)
                 {
-                    (int i, int j) curr = candidates[0];
-                    if (visited[curr.i][curr.j])
-                    {
-                        candidates = candidates.Skip(1).ToList();
-                        continue;
-                    }
-
-                    candidates = candidates
-                        .Skip(1)
-                        .Concat(
-                            GetValidNeighbors(curr.i, curr.j)
-                            .Where(loc => !visited[loc.i][loc.j]))
-                        .ToList();
-                    
+                    (int i, int j) curr = candidates.Dequeue();
+                    if (visited[curr.i][curr.j]) continue;
+                    GetValidNeighbors(curr.i, curr.j)
+                    .ForEach(loc => {
+                        if (!visited[loc.i][loc.j]) candidates.Enqueue(loc);
+                    });
+                  
                     size++;
                     visited[curr.i][curr.j] = true;
                 }
